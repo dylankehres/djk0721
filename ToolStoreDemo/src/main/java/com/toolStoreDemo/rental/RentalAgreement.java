@@ -178,17 +178,16 @@ public class RentalAgreement {
 
             // If the day is a holiday and we charge, continue on to check if the day of the week is charged
             if(holidayChargeDates.contains(rentalDate) && !tool.isHolidayCharge()) {
-                break;
+                continue;
             }
 
             if(tool.isWeekdayCharge() && !isWeekend) {
                 chargeDays++;
-                break;
+                continue;
             }
 
             if(tool.isWeekendCharge() && isWeekend) {
                 chargeDays++;
-                break;
             }
         }
 
@@ -208,7 +207,7 @@ public class RentalAgreement {
      * @return Amount of money saved by the discount
      */
     private double calcDiscountAmount() {
-        return this.preDiscountCharge / this.transaction.getDiscount();
+        return this.preDiscountCharge * this.transaction.getDiscount() / 100;
     }
 
     /**

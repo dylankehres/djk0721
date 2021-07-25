@@ -8,7 +8,7 @@ public class Main {
 
         RentalAgreementService rentalAgreementService = new RentalAgreementService();
 
-        rentalAgreementService.insertTool("Ladder", "Werner","LADW", 1.99, true, true, false);
+        rentalAgreementService.insertTool("Ladder", "Werner","LADW", 2.00, true, true, false);
         rentalAgreementService.rentTool("LADW", 3, 9, 2015, 5, 50);
     }
 }

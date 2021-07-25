@@ -21,4 +21,8 @@ public interface ToolDAO {
     Tool selectById(String id);
 
     Tool selectByCode(String toolCode);
+
+    ArrayList<Tool> selectByBrandKey(String brandKey);
+
+    ArrayList<Tool> selectByTypeKey(String typeKey);
 }

@@ -20,9 +20,6 @@ public class RentalAgreementService {
     private TransactionDAO transactionDAO;
 
     public RentalAgreementService() {
-        // Initialize the connection to the firebase database
-        FirebaseInit.init();
-
         // Initialize the necessary data access objects
         toolDAO = new ToolDAS();
         toolTypeDAO = new ToolTypeDAS();
@@ -60,6 +57,22 @@ public class RentalAgreementService {
             rentalAgreement.printAgreement();
         }
 
+    }
+
+    public void deleteTool(String toolCode) {
+        Tool tool = toolDAO.selectByCode(toolCode);
+
+        if(tool != null) {
+            toolDAO.deleteById(tool.getID());
+
+            if(toolDAO.selectByTypeKey(tool.getTypeKey()).isEmpty()) {
+                toolTypeDAO.deleteById(tool.getTypeKey());
+            }
+
+            if(toolDAO.selectByBrandKey(tool.getBrandKey()).isEmpty()) {
+                toolBrandDAO.deleteById(tool.getBrandKey());
+            }
+        }
     }
 
 }

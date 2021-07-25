@@ -7,7 +7,6 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import com.toolStoreDemo.model.products.Tool;
-import com.toolStoreDemo.model.products.ToolType;
 import com.toolStoreDemo.tables.base.FirebaseDAO;
 
 import java.util.ArrayList;
@@ -65,5 +64,45 @@ public class ToolDAS extends FirebaseDAO<Tool> implements ToolDAO{
 
         // Get the first record if it exists, the name should always be unique
         return tools.isEmpty() ? null : tools.get(0);
+    }
+
+    @Override
+    public ArrayList<Tool> selectByBrandKey(String brandKey) {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("brandKey", brandKey).get();
+        ArrayList<Tool> tools = new ArrayList<>();
+
+        try {
+            List<QueryDocumentSnapshot> docList = querySnapshot.get().getDocuments();
+            if(!docList.isEmpty()){
+                for (QueryDocumentSnapshot queryDocumentSnapshot : docList) {
+                    tools.add(queryDocumentSnapshot.toObject(Tool.class));
+                }
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return tools;
+    }
+
+    @Override
+    public ArrayList<Tool> selectByTypeKey(String typeKey) {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("typeKey", typeKey).get();
+        ArrayList<Tool> tools = new ArrayList<>();
+
+        try {
+            List<QueryDocumentSnapshot> docList = querySnapshot.get().getDocuments();
+            if(!docList.isEmpty()){
+                for (QueryDocumentSnapshot queryDocumentSnapshot : docList) {
+                    tools.add(queryDocumentSnapshot.toObject(Tool.class));
+                }
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return tools;
     }
 }
