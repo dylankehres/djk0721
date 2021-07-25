@@ -1,6 +1,6 @@
 package com.toolStoreDemo.tables.products;
 
-import com.toolStoreDemo.model.Tool;
+import com.toolStoreDemo.model.products.Tool;
 import com.toolStoreDemo.tables.base.FirebaseDAO;
 
 /**

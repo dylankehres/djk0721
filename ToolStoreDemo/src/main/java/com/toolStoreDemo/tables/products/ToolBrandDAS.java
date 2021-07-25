@@ -3,11 +3,10 @@ package com.toolStoreDemo.tables.products;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import com.toolStoreDemo.model.ToolBrand;
+import com.toolStoreDemo.model.products.ToolBrand;
 import com.toolStoreDemo.tables.base.FirebaseDAO;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;

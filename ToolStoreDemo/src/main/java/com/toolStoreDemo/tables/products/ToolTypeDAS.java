@@ -6,7 +6,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
-import com.toolStoreDemo.model.ToolType;
+import com.toolStoreDemo.model.products.ToolType;
 import com.toolStoreDemo.tables.base.FirebaseDAO;
 
 import java.util.ArrayList;

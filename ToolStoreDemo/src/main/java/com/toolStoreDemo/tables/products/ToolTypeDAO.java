@@ -1,6 +1,6 @@
 package com.toolStoreDemo.tables.products;
 
-import com.toolStoreDemo.model.ToolType;
+import com.toolStoreDemo.model.products.ToolType;
 
 import java.util.ArrayList;
 

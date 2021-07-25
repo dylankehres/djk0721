@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class FirebaseInit {
+    // Name of the Firebase Project used for the Firestore
+    private static String projectName = "toolstoredemo";
 
     public static void init() {
         try {
@@ -15,7 +17,7 @@ public class FirebaseInit {
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://toolstoredemo.firebaseio.com")
+                    .setDatabaseUrl("https://" + projectName + ".firebaseio.com")
                     .build();
 
             FirebaseApp.initializeApp(options);

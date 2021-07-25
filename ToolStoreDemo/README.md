@@ -1,0 +1,3 @@
+Demo for a simple Tool Rental Store application using Java, JUnit, and Firebase.
+
+To connect to the database you may use the generated key firebase-adminsdk json file if it was sent to you. Download the file and place it in the ToolStoreDemo folder. Otherwise, you will need to set up your own firebase project, change the project name in FirebaseInit.java, and place your firebase-adminsdk json file in the ToolStoreDemo folder. For instructions on setting up a firebase project please use the documentation at this link https://firebase.google.com/docs/admin/setup#java
