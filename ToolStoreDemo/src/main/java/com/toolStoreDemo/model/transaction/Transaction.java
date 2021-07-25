@@ -57,7 +57,17 @@ public class Transaction extends BaseModel {
 
         this.toolKey = toolKey;
         this.checkoutDate = checkoutDate;
-        this.rentalDays = rentalDays;
+
+        if(rentalDays > 0) {
+            this.rentalDays = rentalDays;
+        }
+
+        if(discount > 100) {
+            discount = 100;
+        } else if(discount < 0) {
+            discount = 0;
+        }
+
         this.discount = discount;
     }
 

@@ -33,7 +33,7 @@ public class ToolBrandDAS extends FirebaseDAO<ToolBrand> implements ToolBrandDAO
     public ToolBrand insert(String id, ToolBrand toolBrand) {
         ToolBrand existingBrand = selectByName(toolBrand.getBrandName());
 
-        if(toolBrand == null) {
+        if(existingBrand == null) {
             Firestore dbFirestore = FirestoreClient.getFirestore();
             ApiFuture<WriteResult> collectionApiFuture = dbFirestore.collection(collection).document(id).set(toolBrand);
 

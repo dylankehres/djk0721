@@ -36,7 +36,7 @@ public class ToolTypeDAS extends FirebaseDAO<ToolType> implements ToolTypeDAO{
     public ToolType insert(String id, ToolType toolType) {
         ToolType existingType = selectByName(toolType.getTypeName());
 
-        if(toolType == null) {
+        if(existingType == null) {
             Firestore dbFirestore = FirestoreClient.getFirestore();
             ApiFuture<WriteResult> collectionApiFuture = dbFirestore.collection(collection).document(id).set(toolType);
 

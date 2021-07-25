@@ -19,4 +19,6 @@ public interface ToolDAO {
     ArrayList<Tool> selectAll();
 
     Tool selectById(String id);
+
+    Tool selectByCode(String toolCode);
 }

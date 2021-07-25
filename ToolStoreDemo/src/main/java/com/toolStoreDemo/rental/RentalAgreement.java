@@ -62,32 +62,16 @@ public class RentalAgreement {
         return chargeDays;
     }
 
-    public void setChargeDays(int chargeDays) {
-        this.chargeDays = chargeDays;
-    }
-
     public double getPreDiscountCharge() {
         return preDiscountCharge;
-    }
-
-    public void setPreDiscountCharge(double preDiscountCharge) {
-        this.preDiscountCharge = preDiscountCharge;
     }
 
     public double getDiscountAmount() {
         return discountAmount;
     }
 
-    public void setDiscountAmount(double discountAmount) {
-        this.discountAmount = discountAmount;
-    }
-
     public double getFinalCharge() {
         return finalCharge;
-    }
-
-    public void setFinalCharge(double finalCharge) {
-        this.finalCharge = finalCharge;
     }
 
     /**
@@ -182,18 +166,18 @@ public class RentalAgreement {
      */
     private int calcChargeDays(ArrayList<Event> holidays) {
         int chargeDays = 0;
-        LocalDate checkoutDate = LocalDate.ofEpochDay(transaction.getCheckoutDate());
-        long daysBetween = ChronoUnit.DAYS.between(checkoutDate, calcDueDate());
+        LocalDate rentalDate = LocalDate.ofEpochDay(transaction.getCheckoutDate());
+        long daysBetween = ChronoUnit.DAYS.between(rentalDate, calcDueDate());
 
         ArrayList<LocalDate> holidayChargeDates = buildHolidayChargeDates(holidays);
 
         boolean isWeekend;
         for(int dayIterate = 0; dayIterate < daysBetween; dayIterate++) {
-            checkoutDate.plusDays(1);
-            isWeekend = dateIsWeekend(checkoutDate);
+            rentalDate = rentalDate.plusDays(1);
+            isWeekend = dateIsWeekend(rentalDate);
 
             // If the day is a holiday and we charge, continue on to check if the day of the week is charged
-            if(holidayChargeDates.contains(checkoutDate) && !tool.isHolidayCharge()) {
+            if(holidayChargeDates.contains(rentalDate) && !tool.isHolidayCharge()) {
                 break;
             }
 
@@ -224,7 +208,7 @@ public class RentalAgreement {
      * @return Amount of money saved by the discount
      */
     private double calcDiscountAmount() {
-        return this.preDiscountCharge * this.transaction.getDiscount();
+        return this.preDiscountCharge / this.transaction.getDiscount();
     }
 
     /**
@@ -240,10 +224,10 @@ public class RentalAgreement {
      * @param holidays List of holidays on the store calendar
      */
     public void buildAgreement(ArrayList<Event> holidays) {
-        setChargeDays(calcChargeDays(holidays));
-        setPreDiscountCharge(calcPreDiscountCharge());
-        setDiscountAmount(calcDiscountAmount());
-        setFinalCharge(calcFinalCharge());
+        chargeDays = calcChargeDays(holidays);
+        preDiscountCharge = calcPreDiscountCharge();
+        discountAmount = calcDiscountAmount();
+        finalCharge = calcFinalCharge();
     }
 
     /**
