@@ -19,4 +19,8 @@ public interface EventDAO {
     ArrayList<Event> selectAll();
 
     Event selectById(String id);
+
+    ArrayList<Event> selectEventsByRecurrencePatternId(String recurrencePatternId);
+
+    ArrayList<Event> selectAllHolidays();
 }

@@ -64,4 +64,44 @@ public class RecurrencePattern extends BaseModel {
         this.recurrenceWeek = recurrenceWeek;
         this.recurrenceMonth = recurrenceMonth;
     }
+
+    public int getRecurrenceFrequency() {
+        return recurrenceFrequency;
+    }
+
+    public void setRecurrenceFrequency(int recurrenceFrequency) {
+        this.recurrenceFrequency = recurrenceFrequency;
+    }
+
+    public int getRecurrencePatternType() {
+        return recurrencePatternType;
+    }
+
+    public void setRecurrencePatternType(int recurrencePatternType) {
+        this.recurrencePatternType = recurrencePatternType;
+    }
+
+    public int getRecurrenceDay() {
+        return recurrenceDay;
+    }
+
+    public void setRecurrenceDay(int recurrenceDay) {
+        this.recurrenceDay = recurrenceDay;
+    }
+
+    public int getRecurrenceWeek() {
+        return recurrenceWeek;
+    }
+
+    public void setRecurrenceWeek(int recurrenceWeek) {
+        this.recurrenceWeek = recurrenceWeek;
+    }
+
+    public int getRecurrenceMonth() {
+        return recurrenceMonth;
+    }
+
+    public void setRecurrenceMonth(int recurrenceMonth) {
+        this.recurrenceMonth = recurrenceMonth;
+    }
 }

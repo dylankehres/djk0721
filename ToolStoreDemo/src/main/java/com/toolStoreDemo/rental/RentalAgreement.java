@@ -17,10 +17,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class RentalAgreement {
-    private Transaction transaction;
-    private Tool tool;
-    private ToolType toolType;
-    private ToolBrand toolBrand;
+    private final Transaction transaction;
+    private final Tool tool;
+    private final ToolType toolType;
+    private final ToolBrand toolBrand;
     private int chargeDays;
     private double preDiscountCharge;
     private double discountAmount;
@@ -56,6 +56,22 @@ public class RentalAgreement {
         this.preDiscountCharge = 0;
         this.discountAmount = 0;
         this.finalCharge = 0;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public Tool getTool() {
+        return tool;
+    }
+
+    public ToolType getToolType() {
+        return toolType;
+    }
+
+    public ToolBrand getToolBrand() {
+        return toolBrand;
     }
 
     public int getChargeDays() {

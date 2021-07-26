@@ -5,6 +5,8 @@ import com.toolStoreDemo.model.products.ToolBrand;
 import com.toolStoreDemo.model.products.ToolType;
 import com.toolStoreDemo.model.transaction.Transaction;
 import com.toolStoreDemo.rental.RentalAgreement;
+import com.toolStoreDemo.tables.calendar.EventDAO;
+import com.toolStoreDemo.tables.calendar.EventDAS;
 import com.toolStoreDemo.tables.products.*;
 import com.toolStoreDemo.tables.transactions.TransactionDAO;
 import com.toolStoreDemo.tables.transactions.TransactionDAS;
@@ -13,11 +15,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class RentalAgreementService {
-    // Initialize the necessary data access objects
-    private ToolDAO toolDAO;
-    private ToolTypeDAO toolTypeDAO;
-    private ToolBrandDAO toolBrandDAO;
-    private TransactionDAO transactionDAO;
+    private final ToolDAO toolDAO;
+    private final ToolTypeDAO toolTypeDAO;
+    private final ToolBrandDAO toolBrandDAO;
+    private final TransactionDAO transactionDAO;
+    private final EventDAO eventDAO;
 
     public RentalAgreementService() {
         // Initialize the necessary data access objects
@@ -25,9 +27,10 @@ public class RentalAgreementService {
         toolTypeDAO = new ToolTypeDAS();
         toolBrandDAO = new ToolBrandDAS();
         transactionDAO = new TransactionDAS();
+        eventDAO = new EventDAS();
     }
 
-    public void insertTool(String typeName, String brandName, String code, double dailyCharge, boolean weekdayCharge, boolean weekendCharge, boolean holidayCharge) {
+    public Tool insertTool(String typeName, String brandName, String code, double dailyCharge, boolean weekdayCharge, boolean weekendCharge, boolean holidayCharge) {
         // Add a new tool brand to the database
         ToolBrand toolBrand = new ToolBrand(brandName);
         toolBrand = toolBrandDAO.insert(toolBrand);
@@ -38,10 +41,13 @@ public class RentalAgreementService {
 
         // Add a new tool to the database
         Tool tool = new Tool(toolType.getID(), toolBrand.getID(), code, dailyCharge, weekdayCharge, weekendCharge, holidayCharge);
-        toolDAO.insert(tool);
+        tool = toolDAO.insert(tool);
+
+        return tool;
     }
 
-    public void rentTool(String toolCode, int day, int month, int year, int rentalDays, int discount) {
+    public RentalAgreement rentTool(String toolCode, int day, int month, int year, int rentalDays, int discount) {
+        RentalAgreement rentalAgreement = new RentalAgreement();
         Tool tool = toolDAO.selectByCode(toolCode);
 
         if(tool != null) {
@@ -52,11 +58,13 @@ public class RentalAgreementService {
             Transaction transaction = new Transaction(tool.getID(), rentalDate.toEpochDay(), rentalDays, discount);
             transactionDAO.insert(transaction);
 
-            RentalAgreement rentalAgreement = new RentalAgreement(transaction, tool, toolType, toolBrand);
-            rentalAgreement.buildAgreement(new ArrayList<>());
+
+            rentalAgreement = new RentalAgreement(transaction, tool, toolType, toolBrand);
+            rentalAgreement.buildAgreement(eventDAO.selectAllHolidays());
             rentalAgreement.printAgreement();
         }
 
+        return rentalAgreement;
     }
 
     public void deleteTool(String toolCode) {
@@ -72,6 +80,10 @@ public class RentalAgreementService {
                 toolBrandDAO.deleteById(tool.getBrandKey());
             }
         }
+    }
+
+    public void deleteTransaction(String transactionId) {
+        transactionDAO.deleteById(transactionId);
     }
 
 }
