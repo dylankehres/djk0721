@@ -12,7 +12,7 @@ public interface ToolBrandDAO {
 
     ToolBrand insert(ToolBrand toolBrand);
 
-    void deleteById(String id);
+    boolean deleteById(String id);
 
     ToolBrand update(ToolBrand toolBrand);
 

@@ -12,7 +12,7 @@ public interface ToolDAO {
 
     Tool insert(Tool tool);
 
-    void deleteById(String id);
+    boolean deleteById(String id);
 
     Tool update(Tool tool);
 

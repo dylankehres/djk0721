@@ -13,11 +13,21 @@ public class FirebaseDAO<T extends BaseModel> implements BaseDAO<T> {
     private final String collection;
     private final Class<T> modelClass;
 
+    /**
+     * Creates a generic Data Access Object instance for the given collection and model
+     * @param collection Name of the table in Firebase
+     * @param modelClass Class of the model being accessed
+     */
     public FirebaseDAO(String collection, Class<T> modelClass) {
         this.collection = collection;
         this.modelClass = modelClass;
     }
 
+    /**
+     * Inserts a model into the database with a random UUID
+     * @param model Model to insert into the database
+     * @return Model that was inserted into the database
+     */
     @Override
     public T insert(T model) {
         UUID id = UUID.randomUUID();
@@ -25,6 +35,12 @@ public class FirebaseDAO<T extends BaseModel> implements BaseDAO<T> {
         return insert(id.toString(), model);
     }
 
+    /**
+     * Inserts a model into the database with a given ID
+     * @param id Unique ID for the record
+     * @param model Model to insert into the database
+     * @return Model that was inserted into the database
+     */
     @Override
     public T insert(String id, T model) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -42,12 +58,33 @@ public class FirebaseDAO<T extends BaseModel> implements BaseDAO<T> {
         return null;
     }
 
+    /**
+     * Deletes record with the given key
+     * @param id Primary key of the record to delete
+     * @return Deletion was successful
+     */
     @Override
-    public void deleteById(String id) {
+    public boolean deleteById(String id) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        dbFirestore.collection(collection).document(id).delete();
+        ApiFuture<WriteResult> deleteFuture = dbFirestore.collection(collection).document(id).delete();
+
+        try {
+            deleteFuture.get();
+            if (deleteFuture.isDone()) {
+                return true;
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
+    /**
+     * Applies updates to a record already in the database
+     * @param model Model to update
+     * @return Updated model
+     */
     @Override
     public T update(T model) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -65,6 +102,10 @@ public class FirebaseDAO<T extends BaseModel> implements BaseDAO<T> {
         return null;
     }
 
+    /**
+     * Select all records in the collection
+     * @return ArrayList of all models
+     */
     @Override
     public ArrayList<T> selectAll() {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -82,6 +123,11 @@ public class FirebaseDAO<T extends BaseModel> implements BaseDAO<T> {
         return selectedModels;
     }
 
+    /**
+     * Select a record with the given primary key
+     * @param id Primary key of the record to select
+     * @return Selected model or null if it does not exist
+     */
     @Override
     public T selectById(String id) {
         Firestore dbFirestore = FirestoreClient.getFirestore();

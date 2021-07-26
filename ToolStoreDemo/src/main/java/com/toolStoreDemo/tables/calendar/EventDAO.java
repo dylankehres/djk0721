@@ -12,7 +12,7 @@ public interface EventDAO {
 
     Event insert(Event event);
 
-    void deleteById(String id);
+    boolean deleteById(String id);
 
     Event update(Event event);
 

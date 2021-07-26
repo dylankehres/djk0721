@@ -12,7 +12,7 @@ public interface TransactionDAO {
 
     Transaction insert(Transaction transaction);
 
-    void deleteById(String id);
+    boolean deleteById(String id);
 
     Transaction update(Transaction transaction);
 

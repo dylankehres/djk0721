@@ -12,7 +12,7 @@ public interface BaseDAO<T extends BaseModel> {
 
     T insert(T model);
 
-    void deleteById(String id);
+    boolean deleteById(String id);
 
     T update(T model);
 

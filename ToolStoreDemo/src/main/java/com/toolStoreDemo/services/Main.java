@@ -10,5 +10,6 @@ public class Main {
 
         rentalAgreementService.insertTool("Ladder", "Werner","LADW", 2.00, true, true, false);
         rentalAgreementService.rentTool("LADW", 3, 9, 2015, 5, 50);
+        rentalAgreementService.deleteTool("LADW");
     }
 }

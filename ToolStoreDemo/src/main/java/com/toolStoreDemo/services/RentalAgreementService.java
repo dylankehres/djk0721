@@ -62,8 +62,7 @@ public class RentalAgreementService {
     public void deleteTool(String toolCode) {
         Tool tool = toolDAO.selectByCode(toolCode);
 
-        if(tool != null) {
-            toolDAO.deleteById(tool.getID());
+        if(tool != null && toolDAO.deleteById(tool.getID())) {
 
             if(toolDAO.selectByTypeKey(tool.getTypeKey()).isEmpty()) {
                 toolTypeDAO.deleteById(tool.getTypeKey());
