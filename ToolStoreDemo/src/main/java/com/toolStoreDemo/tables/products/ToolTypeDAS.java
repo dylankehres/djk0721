@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Data Access Service used to manage ToolType database records
+ * Data Access Service used to manage ToolType database records in Firebase
  */
 public class ToolTypeDAS extends FirebaseDAO<ToolType> implements ToolTypeDAO{
     // Table name in Firebase

@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Data Access Service used to manage ToolBrand database records
+ * Data Access Service used to manage ToolBrand database records in Firebase
  */
 public class ToolBrandDAS extends FirebaseDAO<ToolBrand> implements ToolBrandDAO {
     // Table name in Firebase

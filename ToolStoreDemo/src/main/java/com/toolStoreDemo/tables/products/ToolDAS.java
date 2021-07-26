@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Data Access Service used to manage Tool database records
+ * Data Access Service used to manage Tool database records in Firebase
  */
 public class ToolDAS extends FirebaseDAO<Tool> implements ToolDAO{
     // Table name in Firebase
