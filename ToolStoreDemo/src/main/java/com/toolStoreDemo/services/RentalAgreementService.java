@@ -12,7 +12,6 @@ import com.toolStoreDemo.tables.transactions.TransactionDAO;
 import com.toolStoreDemo.tables.transactions.TransactionDAS;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class RentalAgreementService {
     private final ToolDAO toolDAO;
@@ -30,6 +29,17 @@ public class RentalAgreementService {
         eventDAO = new EventDAS();
     }
 
+    /**
+     * Adds a tool with the given data to the database if it does not already exist
+     * @param typeName Type of tool
+     * @param brandName Brand name of tool
+     * @param code Unique tool code
+     * @param dailyCharge Amount to charge per day
+     * @param weekdayCharge Charge for this tool on weekdays
+     * @param weekendCharge Charge for this tool on weekends
+     * @param holidayCharge Charge for this tool on holidays
+     * @return Tool that was created
+     */
     public Tool insertTool(String typeName, String brandName, String code, double dailyCharge, boolean weekdayCharge, boolean weekendCharge, boolean holidayCharge) {
         // Add a new tool brand to the database
         ToolBrand toolBrand = new ToolBrand(brandName);
@@ -46,18 +56,27 @@ public class RentalAgreementService {
         return tool;
     }
 
+    /**
+     * Create a rental agreement for a tool and print the agreement
+     * @param toolCode Unique code for tool to rent
+     * @param day Day to begin rental
+     * @param month Month to begin rental
+     * @param year Year to begin rental (yyyy)
+     * @param rentalDays Number of days to rent out the tool
+     * @param discount Amount to discount from the tool's daily charge
+     * @return RentalAgreement for the tool rental
+     */
     public RentalAgreement rentTool(String toolCode, int day, int month, int year, int rentalDays, int discount) {
         RentalAgreement rentalAgreement = new RentalAgreement();
         Tool tool = toolDAO.selectByCode(toolCode);
 
         if(tool != null) {
-            ToolType toolType = toolTypeDAO.selectById(tool.getTypeKey());
-            ToolBrand toolBrand = toolBrandDAO.selectById(tool.getBrandKey());
+            ToolType toolType = toolTypeDAO.selectById(tool.getTypeId());
+            ToolBrand toolBrand = toolBrandDAO.selectById(tool.getBrandId());
 
             LocalDate rentalDate = LocalDate.of(year, month, day);
             Transaction transaction = new Transaction(tool.getID(), rentalDate.toEpochDay(), rentalDays, discount);
             transactionDAO.insert(transaction);
-
 
             rentalAgreement = new RentalAgreement(transaction, tool, toolType, toolBrand);
             rentalAgreement.buildAgreement(eventDAO.selectAllHolidays());
@@ -67,21 +86,29 @@ public class RentalAgreementService {
         return rentalAgreement;
     }
 
+    /**
+     * Deletes tool and related type/brand if no longer used
+     * @param toolCode Unique code of the tool to be deleted
+     */
     public void deleteTool(String toolCode) {
         Tool tool = toolDAO.selectByCode(toolCode);
 
         if(tool != null && toolDAO.deleteById(tool.getID())) {
 
-            if(toolDAO.selectByTypeKey(tool.getTypeKey()).isEmpty()) {
-                toolTypeDAO.deleteById(tool.getTypeKey());
+            if(toolDAO.selectByTypeId(tool.getTypeId()).isEmpty()) {
+                toolTypeDAO.deleteById(tool.getTypeId());
             }
 
-            if(toolDAO.selectByBrandKey(tool.getBrandKey()).isEmpty()) {
-                toolBrandDAO.deleteById(tool.getBrandKey());
+            if(toolDAO.selectByBrandId(tool.getBrandId()).isEmpty()) {
+                toolBrandDAO.deleteById(tool.getBrandId());
             }
         }
     }
 
+    /**
+     * Delete a transaction with the given Id
+     * @param transactionId Primary key of the transaction
+     */
     public void deleteTransaction(String transactionId) {
         transactionDAO.deleteById(transactionId);
     }

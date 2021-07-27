@@ -30,8 +30,8 @@ public class Event extends BaseModel {
     /**
      * Foreign Key for the {@link RecurrencePattern} if this event reoccurs
      */
-    @JsonProperty("recurrencePatternKey")
-    private String recurrencePatternKey;
+    @JsonProperty("recurrencePatternId")
+    private String recurrencePatternId;
 
     /**
      * Creates a default Event for January 1, 1970
@@ -42,7 +42,7 @@ public class Event extends BaseModel {
         this.dateTime = LocalDate.of(1970, 1, 1).toEpochDay();
         this.holiday = false;
         this.observeWeekday = false;
-        this.recurrencePatternKey = "";
+        this.recurrencePatternId = "";
     }
 
     /**
@@ -59,7 +59,7 @@ public class Event extends BaseModel {
         this.dateTime = LocalDate.of(year, month, day).toEpochDay();
         this.holiday = holiday;
         this.observeWeekday = observeWeekday;
-        this.recurrencePatternKey = "";
+        this.recurrencePatternId = "";
     }
 
     /**
@@ -69,15 +69,15 @@ public class Event extends BaseModel {
      * @param year Numeric year that the event will occur
      * @param holiday The event is a holiday
      * @param observeWeekday The event should be observed on the nearest weekday when it falls on a weekend
-     * @param recurrencePatternKey Primary Key of the recurrence pattern this event uses
+     * @param recurrencePatternId Primary Key of the recurrence pattern this event uses
      */
-    public Event(int day, int month, int year, boolean holiday, boolean observeWeekday, String recurrencePatternKey) {
+    public Event(int day, int month, int year, boolean holiday, boolean observeWeekday, String recurrencePatternId) {
         super();
 
         this.dateTime = LocalDate.of(year, month, day).toEpochDay();
         this.holiday = holiday;
         this.observeWeekday = observeWeekday;
-        this.recurrencePatternKey = recurrencePatternKey;
+        this.recurrencePatternId = recurrencePatternId;
     }
 
     public long getDateTime() {
@@ -104,11 +104,11 @@ public class Event extends BaseModel {
         this.observeWeekday = observeWeekday;
     }
 
-    public String getRecurrencePatternKey() {
-        return recurrencePatternKey;
+    public String getRecurrencePatternId() {
+        return recurrencePatternId;
     }
 
-    public void setRecurrencePatternKey(String recurrencePatternKey) {
-        this.recurrencePatternKey = recurrencePatternKey;
+    public void setRecurrencePatternId(String recurrencePatternId) {
+        this.recurrencePatternId = recurrencePatternId;
     }
 }

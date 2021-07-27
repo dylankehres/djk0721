@@ -11,14 +11,14 @@ public class Tool extends BaseModel {
     /**
      * The foreign key for this tool's ToolType
      */
-    @JsonProperty("typeKey")
-    private String typeKey;
+    @JsonProperty("typeId")
+    private String typeId;
 
     /**
      * The foreign key for this tool's ToolBrand
      */
-    @JsonProperty("brandKey")
-    private String brandKey;
+    @JsonProperty("brandId")
+    private String brandId;
 
     // String fields
     /**
@@ -65,8 +65,8 @@ public class Tool extends BaseModel {
     public Tool() {
         super();
 
-        this.typeKey = "";
-        this.brandKey = "";
+        this.typeId = "";
+        this.brandId = "";
         this.code = "";
         this.dailyCharge = 0.00;
         this.weekdayCharge = true;
@@ -77,19 +77,19 @@ public class Tool extends BaseModel {
 
     /**
      * Creates a tool with the given type, brand, code, and charges
-     * @param typeKey Foreign key of the ToolType
-     * @param brandKey Foreign key of the ToolBrand
+     * @param typeId Foreign key of the ToolType
+     * @param brandId Foreign key of the ToolBrand
      * @param code Tool's unique code
      * @param dailyCharge Amount of dollars to charge each day the tool is rented
      * @param weekdayCharge The client should be charged each weekday the tool is rented
      * @param weekendCharge The client should be charged on weekends that the tool is rented
      * @param holidayCharge The client should be charged each holiday the tool is rented
      */
-    public Tool(String typeKey, String brandKey, String code, double dailyCharge, boolean weekdayCharge, boolean weekendCharge, boolean holidayCharge) {
+    public Tool(String typeId, String brandId, String code, double dailyCharge, boolean weekdayCharge, boolean weekendCharge, boolean holidayCharge) {
         super();
 
-        this.typeKey = typeKey;
-        this.brandKey = brandKey;
+        this.typeId = typeId;
+        this.brandId = brandId;
         this.code = code;
         this.dailyCharge = dailyCharge;
         this.weekdayCharge = weekdayCharge;
@@ -98,20 +98,20 @@ public class Tool extends BaseModel {
         this.rented = false;
     }
 
-    public String getTypeKey() {
-        return typeKey;
+    public String getTypeId() {
+        return typeId;
     }
 
-    public void setTypeKey(String typeKey) {
-        this.typeKey = typeKey;
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
-    public String getBrandKey() {
-        return brandKey;
+    public String getBrandId() {
+        return brandId;
     }
 
-    public void setBrandKey(String brandKey) {
-        this.brandKey = brandKey;
+    public void setBrandId(String brandId) {
+        this.brandId = brandId;
     }
 
     public String getCode() {

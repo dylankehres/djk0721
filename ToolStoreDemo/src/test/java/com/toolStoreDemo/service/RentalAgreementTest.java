@@ -24,6 +24,9 @@ public class RentalAgreementTest {
     ArrayList<RecurrencePattern> testHolidays = new ArrayList<>();
     ArrayList<RentalAgreement> testRentals = new ArrayList<>();
 
+    /**
+     * Initialize records needed for tests
+     */
     @BeforeAll
     void setup() {
         // Initialize the connection to the firebase database
@@ -44,6 +47,9 @@ public class RentalAgreementTest {
         testHolidays.add(calendarService.insertHolidayOnDayOfMonth(1, 1, 9, 2015, 6));
     }
 
+    /**
+     * Delete all records that were added to the database for this test
+     */
     @AfterAll
     void teardown() {
         for(Tool tool : this.testTools) {
@@ -59,6 +65,12 @@ public class RentalAgreementTest {
         }
     }
 
+    /**
+     * Tool code: JAKR
+     * Checkout date: 9/3/15
+     * Rental days: 5
+     * Discount: 101%
+     */
     @Test
     void test1() {
         RentalAgreement rentalAgreement = rentalAgreementService.rentTool("JAKR", 3, 9, 2015, 5, 101);
@@ -70,6 +82,12 @@ public class RentalAgreementTest {
         assertEquals(0, rentalAgreement.getFinalCharge());
     }
 
+    /**
+     * Tool code: LADW
+     * Checkout date: 7/2/20
+     * Rental days: 3
+     * Discount: 10%
+     */
     @Test
     void test2() {
         RentalAgreement rentalAgreement = rentalAgreementService.rentTool("LADW", 2, 7, 2020, 3, 10);
@@ -81,6 +99,12 @@ public class RentalAgreementTest {
         assertEquals(3.98 - (3.98 * 10 / 100), rentalAgreement.getFinalCharge());
     }
 
+    /**
+     * Tool code: CHNS
+     * Checkout date: 7/2/15
+     * Rental days: 5
+     * Discount: 25%
+     */
     @Test
     void test3() {
         RentalAgreement rentalAgreement = rentalAgreementService.rentTool("CHNS", 2, 7, 2015, 5, 25);
@@ -92,6 +116,12 @@ public class RentalAgreementTest {
         assertEquals(3.3525, rentalAgreement.getFinalCharge());
     }
 
+    /**
+     * Tool code: JAKD
+     * Checkout date: 9/3/15
+     * Rental days: 6
+     * Discount: 0%
+     */
     @Test
     void test4() {
         RentalAgreement rentalAgreement = rentalAgreementService.rentTool("JAKD", 3, 9, 2015, 6, 0);
@@ -103,6 +133,12 @@ public class RentalAgreementTest {
         assertEquals(8.97, rentalAgreement.getFinalCharge());
     }
 
+    /**
+     * Tool code: JAKR
+     * Checkout date: 7/2/15
+     * Rental days: 9
+     * Discount: 0%
+     */
     @Test
     void test5() {
         RentalAgreement rentalAgreement = rentalAgreementService.rentTool("JAKR", 2, 7, 2015, 9, 0);
@@ -114,6 +150,12 @@ public class RentalAgreementTest {
         assertEquals(17.94, rentalAgreement.getFinalCharge());
     }
 
+    /**
+     * Tool code: JAKR
+     * Checkout date: 7/2/20
+     * Rental days: 4
+     * Discount: 50%
+     */
     @Test
     void test6() {
         RentalAgreement rentalAgreement = rentalAgreementService.rentTool("JAKR", 2, 7, 2020, 4, 50);

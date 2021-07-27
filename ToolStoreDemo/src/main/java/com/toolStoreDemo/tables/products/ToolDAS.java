@@ -24,6 +24,12 @@ public class ToolDAS extends FirebaseDAO<Tool> implements ToolDAO{
         super(collection, Tool.class);
     }
 
+    /**
+     * Inserts a tool unless a tool with the given code already exists
+     * @param id Unique ID for the record
+     * @param tool Tool to add to the database
+     * @return Tool that was inserted or already existed
+     */
     @Override
     public Tool insert(String id, Tool tool) {
         Tool existingTool = selectByCode(tool.getCode());
@@ -45,6 +51,11 @@ public class ToolDAS extends FirebaseDAO<Tool> implements ToolDAO{
         return existingTool;
     }
 
+    /**
+     * Selects the tool with the given unique code
+     * @param toolCode Unique code associated with the tool
+     * @return Tool with the given code or null if one did not exist
+     */
     @Override
     public Tool selectByCode(String toolCode) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -66,10 +77,15 @@ public class ToolDAS extends FirebaseDAO<Tool> implements ToolDAO{
         return tools.isEmpty() ? null : tools.get(0);
     }
 
+    /**
+     * Selects all tools that belong to the brand with the given ID
+     * @param brandId Primary key of the ToolBrand
+     * @return ArrayList of tools that belong to the brand
+     */
     @Override
-    public ArrayList<Tool> selectByBrandKey(String brandKey) {
+    public ArrayList<Tool> selectByBrandId(String brandId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("brandKey", brandKey).get();
+        ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("brandId", brandId).get();
         ArrayList<Tool> tools = new ArrayList<>();
 
         try {
@@ -86,10 +102,15 @@ public class ToolDAS extends FirebaseDAO<Tool> implements ToolDAO{
         return tools;
     }
 
+    /**
+     * Selects all tools that are the type with the given ID
+     * @param typeId Primary key of the ToolType
+     * @return ArrayList of tools that are the given type
+     */
     @Override
-    public ArrayList<Tool> selectByTypeKey(String typeKey) {
+    public ArrayList<Tool> selectByTypeId(String typeId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("typeKey", typeKey).get();
+        ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("typeId", typeId).get();
         ArrayList<Tool> tools = new ArrayList<>();
 
         try {

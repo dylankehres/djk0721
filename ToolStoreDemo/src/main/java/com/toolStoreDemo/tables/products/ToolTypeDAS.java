@@ -25,13 +25,12 @@ public class ToolTypeDAS extends FirebaseDAO<ToolType> implements ToolTypeDAO{
         super(collection, ToolType.class);
     }
 
-    @Override
-    public ToolType insert(ToolType toolType) {
-        UUID id = UUID.randomUUID();
-        toolType.setID(id.toString());
-        return insert(id.toString(), toolType);
-    }
-
+    /**
+     * Inserts a ToolType unless a type with the given name already exists
+     * @param id Unique ID for the record
+     * @param toolType ToolType to add to the database
+     * @return ToolType that was inserted or already existed
+     */
     @Override
     public ToolType insert(String id, ToolType toolType) {
         ToolType existingType = selectByName(toolType.getTypeName());
@@ -53,6 +52,11 @@ public class ToolTypeDAS extends FirebaseDAO<ToolType> implements ToolTypeDAO{
         return existingType;
     }
 
+    /**
+     * Selects a ToolType with the given name
+     * @param name Name of the tool type
+     * @return ToolType with the given name or null if one did not exist
+     */
     public ToolType selectByName(String name) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("typeName", name).get();

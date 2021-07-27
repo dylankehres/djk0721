@@ -7,6 +7,9 @@ import com.google.firebase.FirebaseOptions;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * Class used to initialize the connection to Google Firebase
+ */
 public class FirebaseInit {
     // Name of the Firebase Project used for the Firestore
     private static String projectName = "toolstoredemo";

@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Base class for a Firebase Data Access Service
+ * @param <T> Model being accessed by this service
+ */
 public class FirebaseDAO<T extends BaseModel> implements BaseDAO<T> {
     private final String collection;
     private final Class<T> modelClass;

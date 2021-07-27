@@ -22,13 +22,12 @@ public class ToolBrandDAS extends FirebaseDAO<ToolBrand> implements ToolBrandDAO
         super(collection, ToolBrand.class);
     }
 
-    @Override
-    public ToolBrand insert(ToolBrand toolBrand) {
-        UUID id = UUID.randomUUID();
-        toolBrand.setID(id.toString());
-        return insert(id.toString(), toolBrand);
-    }
-
+    /**
+     * Inserts a ToolBrand unless a brand with the given name already exists
+     * @param id Unique ID for the record
+     * @param toolBrand ToolBrand to add to the database
+     * @return ToolBrand that was inserted or already existed
+     */
     @Override
     public ToolBrand insert(String id, ToolBrand toolBrand) {
         ToolBrand existingBrand = selectByName(toolBrand.getBrandName());
@@ -50,6 +49,11 @@ public class ToolBrandDAS extends FirebaseDAO<ToolBrand> implements ToolBrandDAO
         return existingBrand;
     }
 
+    /**
+     * Select a ToolBrand with the given name
+     * @param name Name of the tool brand
+     * @return ToolBrand with the given code or null if one did not exist
+     */
     public ToolBrand selectByName(String name) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("brandName", name).get();

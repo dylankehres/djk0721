@@ -23,10 +23,15 @@ public class EventDAS extends FirebaseDAO<Event> implements EventDAO {
         super(collection, Event.class);
     }
 
+    /**
+     * Selects all Events that use the recurrence pattern with the given ID
+     * @param recurrencePatternId Primary key of the RecurrencePattern
+     * @return ArrayList of Events in the pattern
+     */
     @Override
     public ArrayList<Event> selectEventsByRecurrencePatternId(String recurrencePatternId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("recurrencePatternKey", recurrencePatternId).get();
+        ApiFuture<QuerySnapshot> querySnapshot = dbFirestore.collection(collection).whereEqualTo("recurrencePatternId", recurrencePatternId).get();
         ArrayList<Event> events = new ArrayList<>();
 
         try {
@@ -43,6 +48,10 @@ public class EventDAS extends FirebaseDAO<Event> implements EventDAO {
         return events;
     }
 
+    /**
+     * Selects all events designated as holidays
+     * @return ArrayList of Events designated as holidays
+     */
     @Override
     public ArrayList<Event> selectAllHolidays() {
         Firestore dbFirestore = FirestoreClient.getFirestore();

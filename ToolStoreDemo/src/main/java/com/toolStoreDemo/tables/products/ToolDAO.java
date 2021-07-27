@@ -22,7 +22,7 @@ public interface ToolDAO {
 
     Tool selectByCode(String toolCode);
 
-    ArrayList<Tool> selectByBrandKey(String brandKey);
+    ArrayList<Tool> selectByBrandId(String brandId);
 
-    ArrayList<Tool> selectByTypeKey(String typeKey);
+    ArrayList<Tool> selectByTypeId(String typeId);
 }
