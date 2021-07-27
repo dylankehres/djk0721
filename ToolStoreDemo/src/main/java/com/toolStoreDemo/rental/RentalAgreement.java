@@ -117,10 +117,10 @@ public class RentalAgreement {
             if(holiday.isObserveWeekday()) {
                 if(date.getDayOfWeek() == DayOfWeek.SATURDAY) {
                     holidayChargeDates.add(date.minusDays(1));
-                    break;
+                    continue;
                 } else if (date.getDayOfWeek() == DayOfWeek.SUNDAY) {
                     holidayChargeDates.add(date.plusDays(1));
-                    break;
+                    continue;
                 }
             }
 
@@ -188,23 +188,26 @@ public class RentalAgreement {
         ArrayList<LocalDate> holidayChargeDates = buildHolidayChargeDates(holidays);
 
         boolean isWeekend;
+        boolean dayProcessed;
         for(int dayIterate = 0; dayIterate < daysBetween; dayIterate++) {
-            rentalDate = rentalDate.plusDays(1);
+            dayProcessed = false;
             isWeekend = dateIsWeekend(rentalDate);
 
             // If the day is a holiday and we charge, continue on to check if the day of the week is charged
             if(holidayChargeDates.contains(rentalDate) && !tool.isHolidayCharge()) {
-                continue;
+                dayProcessed = true;
             }
 
-            if(tool.isWeekdayCharge() && !isWeekend) {
+            if(!dayProcessed && tool.isWeekdayCharge() && !isWeekend) {
                 chargeDays++;
-                continue;
+                dayProcessed = true;
             }
 
-            if(tool.isWeekendCharge() && isWeekend) {
+            if(!dayProcessed && tool.isWeekendCharge() && isWeekend) {
                 chargeDays++;
             }
+
+            rentalDate = rentalDate.plusDays(1);
         }
 
         return chargeDays;

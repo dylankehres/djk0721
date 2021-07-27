@@ -45,7 +45,7 @@ public class CalendarService {
         for (int i = 0; i < numberOfYears; i++) {
             LocalDate date = LocalDate.of(year, month, 1); // Start at the beginning of the month
             int diffDays = date.getDayOfWeek().getValue() - day; // Get week days until the appropriate day of the week
-            date = date.plusDays(diffDays); // Move forward to the correct day of the week
+            date = date.plusDays(7 - diffDays); // Move forward to the correct day of the week
             date = date.plusWeeks(week - 1); // Adjust for which week the event should take place
 
             Event holiday = new Event(date.getDayOfMonth(), month, year, true, false, recurrencePattern.getID());
@@ -63,5 +63,7 @@ public class CalendarService {
         for (Event event : events) {
             this.eventDAO.deleteById(event.getID());
         }
+
+        this.recurrencePatternDAO.deleteById(recurrencePatternKey);
     }
 }

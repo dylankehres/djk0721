@@ -3,7 +3,7 @@ package com.toolStoreDemo.model.calendar;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.toolStoreDemo.model.BaseModel;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 /**
  * Model used to represent on event on the store calendar
@@ -39,7 +39,7 @@ public class Event extends BaseModel {
     public Event() {
         super();
 
-        this.dateTime = Calendar.getInstance().getTime().getTime();
+        this.dateTime = LocalDate.of(1970, 1, 1).toEpochDay();
         this.holiday = false;
         this.observeWeekday = false;
         this.recurrencePatternKey = "";
@@ -56,10 +56,7 @@ public class Event extends BaseModel {
     public Event(int day, int month, int year, boolean holiday, boolean observeWeekday) {
         super();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-
-        this.dateTime = calendar.getTime().getTime();
+        this.dateTime = LocalDate.of(year, month, day).toEpochDay();
         this.holiday = holiday;
         this.observeWeekday = observeWeekday;
         this.recurrencePatternKey = "";
@@ -77,10 +74,7 @@ public class Event extends BaseModel {
     public Event(int day, int month, int year, boolean holiday, boolean observeWeekday, String recurrencePatternKey) {
         super();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-
-        this.dateTime = calendar.getTime().getTime();
+        this.dateTime = LocalDate.of(year, month, day).toEpochDay();
         this.holiday = holiday;
         this.observeWeekday = observeWeekday;
         this.recurrencePatternKey = recurrencePatternKey;
