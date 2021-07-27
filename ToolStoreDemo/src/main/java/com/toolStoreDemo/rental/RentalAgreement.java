@@ -183,31 +183,32 @@ public class RentalAgreement {
     private int calcChargeDays(ArrayList<Event> holidays) {
         int chargeDays = 0;
         LocalDate rentalDate = LocalDate.ofEpochDay(transaction.getCheckoutDate());
-        long daysBetween = ChronoUnit.DAYS.between(rentalDate, calcDueDate());
+        LocalDate dueDate = calcDueDate();
+        long daysToRent = ChronoUnit.DAYS.between(rentalDate, dueDate) - 1;
 
         ArrayList<LocalDate> holidayChargeDates = buildHolidayChargeDates(holidays);
 
         boolean isWeekend;
         boolean dayProcessed;
-        for(int dayIterate = 0; dayIterate < daysBetween; dayIterate++) {
+        for(int dayIterate = 0; dayIterate < daysToRent; dayIterate++) {
             dayProcessed = false;
+
+            rentalDate = rentalDate.plusDays(1); // Start the day after checkout
             isWeekend = dateIsWeekend(rentalDate);
 
             // If the day is a holiday and we charge, continue on to check if the day of the week is charged
-            if(holidayChargeDates.contains(rentalDate) && !tool.isHolidayCharge()) {
+            if(holidayChargeDates.contains(rentalDate) && !toolType.isHolidayCharge()) {
                 dayProcessed = true;
             }
 
-            if(!dayProcessed && tool.isWeekdayCharge() && !isWeekend) {
+            if(!dayProcessed && toolType.isWeekdayCharge() && !isWeekend) {
                 chargeDays++;
                 dayProcessed = true;
             }
 
-            if(!dayProcessed && tool.isWeekendCharge() && isWeekend) {
+            if(!dayProcessed && toolType.isWeekendCharge() && isWeekend) {
                 chargeDays++;
             }
-
-            rentalDate = rentalDate.plusDays(1);
         }
 
         return chargeDays;
@@ -218,7 +219,7 @@ public class RentalAgreement {
      * @return Amount to charge in dollars
      */
     private double calcPreDiscountCharge() {
-        return this.chargeDays * this.tool.getDailyCharge();
+        return this.chargeDays * this.toolType.getDailyCharge();
     }
 
     /**
@@ -258,7 +259,7 @@ public class RentalAgreement {
         System.out.println("Rental days: " + this.transaction.getRentalDays());
         System.out.println("Check out date: " + formatDate(this.transaction.getCheckoutDate()));
         System.out.println("Due date: " + formatDate(calcDueDate()));
-        System.out.println("Daily rental charge: " + formatCurrency(tool.getDailyCharge()));
+        System.out.println("Daily rental charge: " + formatCurrency(toolType.getDailyCharge()));
         System.out.println("Charge days: " + chargeDays);
         System.out.println("Pre-discount charge: " + formatCurrency(preDiscountCharge));
         System.out.println("Discount percent: " + formatPercentage(transaction.getDiscount()));

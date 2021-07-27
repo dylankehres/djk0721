@@ -22,13 +22,22 @@ public class Main {
         // Add tool data
         Tool tool = rentalAgreementService.insertTool("Ladder", "Werner","LADW", 1.99, true, true, false);
 
-        // Process rental agreement
-        RentalAgreement rentalAgreement = rentalAgreementService.rentTool("LADW", 2, 7, 2020, 3, 10);
 
-        // Clean up database
-        calendarService.deleteRecurrenceAndEvents(laborDay.getID());
-        calendarService.deleteRecurrenceAndEvents(forthOfJuly.getID());
-        rentalAgreementService.deleteTool(tool.getCode());
-        rentalAgreementService.deleteTransaction(rentalAgreement.getTransaction().getID());
+        RentalAgreement rentalAgreement = new RentalAgreement();
+        try {
+            // Process rental agreement
+            rentalAgreement = rentalAgreementService.rentTool("LADW", 2, 7, 2020, 3, 101);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            // Clean up database
+            calendarService.deleteRecurrenceAndEvents(laborDay.getID());
+            calendarService.deleteRecurrenceAndEvents(forthOfJuly.getID());
+            rentalAgreementService.deleteTool(tool.getCode());
+
+            if(!rentalAgreement.getTransaction().getID().isEmpty()) {
+                rentalAgreementService.deleteTransaction(rentalAgreement.getTransaction().getID());
+            }
+        }
     }
 }

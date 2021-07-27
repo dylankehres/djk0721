@@ -46,11 +46,11 @@ public class RentalAgreementService {
         toolBrand = toolBrandDAO.insert(toolBrand);
 
         // Add a new tool type to the database
-        ToolType toolType = new ToolType(typeName);
+        ToolType toolType = new ToolType(typeName, dailyCharge, weekdayCharge, weekendCharge, holidayCharge);
         toolType = toolTypeDAO.insert(toolType);
 
         // Add a new tool to the database
-        Tool tool = new Tool(toolType.getID(), toolBrand.getID(), code, dailyCharge, weekdayCharge, weekendCharge, holidayCharge);
+        Tool tool = new Tool(toolType.getID(), toolBrand.getID(), code);
         tool = toolDAO.insert(tool);
 
         return tool;
@@ -66,7 +66,15 @@ public class RentalAgreementService {
      * @param discount Amount to discount from the tool's daily charge
      * @return RentalAgreement for the tool rental
      */
-    public RentalAgreement rentTool(String toolCode, int day, int month, int year, int rentalDays, int discount) {
+    public RentalAgreement rentTool(String toolCode, int day, int month, int year, int rentalDays, int discount) throws Exception {
+        if(rentalDays < 1) {
+            throw new Exception("\nPlease enter a number of rental days that is greater than 0.\n");
+        }
+
+        if(discount < 0 || discount > 100) {
+            throw new Exception("\nPlease enter a discount percentage that is between 0 and 100.\n");
+        }
+
         RentalAgreement rentalAgreement = new RentalAgreement();
         Tool tool = toolDAO.selectByCode(toolCode);
 
